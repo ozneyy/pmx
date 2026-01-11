@@ -3,19 +3,27 @@
 # --- Couleurs ---
 CLR_B="\e[34m"; CLR_G="\e[32m"; CLR_Y="\e[33m"; CLR_R="\e[31m"; CLR_RESET="\e[0m"
 
-echo -e "${CLR_B}PMX Installer - Final Version${CLR_RESET}"
+echo -e "${CLR_B}########################################${CLR_RESET}"
+echo -e "${CLR_B}#      PMX - Proxmox Monitoring X       #${CLR_RESET}"
+echo -e "${CLR_B}########################################${CLR_RESET}"
 
 # 1. Check Root & Dépendances
-[[ $EUID -ne 0 ]] && echo -e "${CLR_R}Erreur : Lancez en root (sudo).${CLR_RESET}" && exit 1
+if [[ $EUID -ne 0 ]]; then
+   echo -e "${CLR_R}Erreur : Lancez ce script en root (sudo).${CLR_RESET}"
+   exit 1
+fi
+
+echo -e "\n${CLR_Y}[1/3] Installation des dépendances (jq, bc)...${CLR_RESET}"
 apt update && apt install -y jq bc > /dev/null 2>&1
 
-# 2. Choix du style
-echo -ne "${CLR_B}Utiliser NerdFont (icones) ? [y/N] : ${CLR_RESET}"
-read -r font_choice
+# 2. Choix du style (FIXÉ pour curl | bash)
+echo -e "\n${CLR_Y}[2/3] Configuration graphique...${CLR_RESET}"
+echo -ne "${CLR_B}Utiliser NerdFont (icones spéciales) ? [y/N] : ${CLR_RESET}"
+read -r font_choice < /dev/tty
 
 TEMP_PMX=$(mktemp)
 
-# --- BASE DU SCRIPT (Configuration & Aide) ---
+# --- BASE DU SCRIPT ---
 cat << 'EOF' > "$TEMP_PMX"
 #!/bin/bash
 CLR_G="\e[32m"; CLR_R="\e[31m"; CLR_B="\e[34m"; CLR_Y="\e[33m"; CLR_RESET="\e[0m"; CLR_GR="\e[90m"
@@ -62,7 +70,7 @@ draw_bar() {
 EOF
 fi
 
-# --- CORPS DU SCRIPT ---
+# --- LOGIQUE DU SCRIPT ---
 cat << 'EOF' >> "$TEMP_PMX"
 human_size() {
     local b=$(echo "${1:-0}" | cut -d. -f1)
@@ -149,6 +157,6 @@ while true; do
 done
 EOF
 
-# Installation finale
+# 3. Installation Finale
 mv "$TEMP_PMX" /usr/local/bin/pmx && chmod +x /usr/local/bin/pmx
-echo -e "\n${CLR_G}Installation réussie ! Tapez 'pmx -help' pour voir les options.${CLR_RESET}"
+echo -e "\n${CLR_G}[3/3] Installation terminée dans /usr/local/bin/pmx !${CLR_RESET}"
