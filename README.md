@@ -11,7 +11,7 @@ Contrairement aux outils de monitoring classiques, PMX utilise un rafraîchissem
 Exécutez cette commande en tant que `root` sur votre nœud Proxmox (remplacez `VOTRE_PSEUDO` par votre nom d'utilisateur GitHub si nécessaire) :
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/ozneyy/pmx/refs/heads/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/ozneyy/pmx/main/install.sh | bash
 ```
 
 Le script d'installation gère automatiquement les dépendances minimales requises (notamment `jq` et `bc`).
