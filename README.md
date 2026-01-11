@@ -1,4 +1,4 @@
-# 🚀 PMX - Simple Proxmox utilisation on CLI
+# 🚀 PMX - Simple utilisation de Proxmox CLI
 
 PMX est un utilitaire CLI léger conçu pour la surveillance et la gestion rapide de vos instances Proxmox VE.
 
